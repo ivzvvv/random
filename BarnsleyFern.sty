@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{decorations, decorations.text,}
+\usetikzlibrary{decorations.text}
+\usepackage{animate}
+\usepackage{tikz}
+\usepackage{fp}
+\usepackage{pgf}
+\usepackage{ifthen}
+\newcounter{myloopcounter}
+
+
+\begin{document}
+
+
+\FPset{\aum}{1}
+\FPset{\adois}{1}
+\FPset{\atres}{1}
+\FPset{\aquatro}{1}
+\FPset{\rvalue}{1}
+\FPset{\acinco}{1}
+
+
+
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+    \FPset{\xn}{0.0}
+    \FPset{\yn}{0.0}
+    \FPset{\xvalue}{0.0}
+    \FPset{\yvalue}{0.0}
+
+\foreach \n [remember=\xn as \xvalue, remember=\yn as \yvalue] in {0,...,8000}{
+%\pgfmathsetmacro{\rvalue}{rnd}
+    %\pgfmathsetseed{\n}
+    %\pgfmathsetmacro{\rvalue}{rnd}
+    \pgfmathparse{1 * random()}
+    %\draw[color=black!60!green] (0 cm, \n cm) circle (1pt) node[anchor=east] {START (\xvalue, \yvalue, \xn, \yn, \rvalue)};
+    \FPset{\rvalue}{\pgfmathresult}
+    %\pgfmathparse{\rvalue * (1-random())}
+    \ifthenelse{\lengthtest{\rvalue cm < 0.01 cm}}{
+            \FPmul\aum{0}{0}
+            \FPmul\adois{0}{0}
+            \FPadd{\xn}{\aum}{\adois}
+            
+            \FPmul\aum{0.16}{\yvalue}
+            \FPmul\adois{0}{0}
+            \FPadd{\yn}{\aum}{\adois}
+    }{
+        \ifthenelse{\lengthtest{\rvalue cm < 0.86 cm}}{
+                \FPmul\aum{0.85}{\xvalue}
+                \FPmul\adois{0.04}{\yvalue}
+                \FPadd{\xn}{\aum}{\adois}
+                
+                \FPmul\aum{-0.04}{\xvalue}
+                \FPmul\adois{0.85}{\yvalue}
+                
+                \FPadd{\yn}{\aum}{\adois}
+                \FPadd{\yn}{\yn}{1.6}
+        }{
+            \ifthenelse{\lengthtest{\rvalue cm < 0.93 cm}}{
+                \FPmul\aum{0.2}{\xvalue}
+                \FPmul\adois{-0.26}{\yvalue}
+                \FPadd{\xn}{\aum}{\adois}
+                
+                \FPmul\aum{0.23}{\xvalue}
+                \FPmul\adois{0.22}{\yvalue}
+                
+                \FPadd{\yn}{\aum}{\adois}
+                \FPadd{\yn}{\yn}{1.6}
+            }{
+                \FPmul\aum{-0.15}{\xvalue}
+                \FPmul\adois{0.28}{\yvalue}
+                \FPadd{\xn}{\aum}{\adois}
+                
+                \FPmul\aum{0.23}{\xvalue}
+                \FPmul\adois{0.22}{\yvalue}
+                
+                \FPadd{\yn}{\aum}{\adois}
+                \FPadd{\yn}{\yn}{1.6}
+            }
+        }
+    }
+    \draw[fill=black!60!green, fill opacity=0.9,draw=none] (\xn cm, \yn cm) circle (1pt);
+};
+    \end{tikzpicture}
+    \caption{Barnsley Fern}
+    \label{fig:enter-label}
+\end{figure}
+
+\end{document}
